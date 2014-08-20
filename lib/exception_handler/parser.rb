@@ -25,14 +25,14 @@ module ExceptionHandler
 			ignored[:errors] = [ActionController::RoutingError, AbstractController::ActionNotFound, ActiveRecord::RecordNotFound]
 			ignored[:bots]   = /\b(Baidu|Gigabot|Googlebot|libwww-per|lwp-trivial|msnbot|SiteUptime|Slurp|Wordpress|ZIBB|ZyBorg|Yandex|Jyxobot|Huaweisymantecspider|ApptusBot)\b/i
 
-			return true if ignored[:errors].include?(exception.class) && request.referer.blank?
+			return true if ignored[:errors].include?(exception.class)
 			return true if request.user_agent =~ ignored[:bots]
 		end
 
 	end
 
 	#Parse
-	class Parser 
+	class Parser
 
 		#Init
 		def initialize(exception, request, controller)
