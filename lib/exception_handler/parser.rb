@@ -13,10 +13,12 @@ module ExceptionHandler
 			@app.call(env)
 
 		rescue Exception => exception
-			request = ActionDispatch::Request.new(env)
-			controller = env['action_controller.instance']
+			unless  [ActionController::RoutingError, AbstractController::ActionNotFound, ActiveRecord::RecordNotFound].include?(exception.class)
+				request = ActionDispatch::Request.new(env)
+				controller = env['action_controller.instance']
 
-			ExceptionHandler::Parser.new(exception, request, controller).save unless self.ignore?(exception, request)
+				ExceptionHandler::Parser.new(exception, request, controller).save unless self.ignore?(exception, request)
+			end
 			raise exception
 		end
 
